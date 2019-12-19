@@ -58,40 +58,44 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex'
+import { ref } from '@vue/composition-api'
 
 export default {
-  data() {
-    return {
-      email: undefined,
-      password: undefined,
-      error: undefined
-    }
-  },
-  methods: {
-    dismissError() {
-      this.error = undefined
-      this.clearAuthenticateError()
-    },
+  name: 'Login',
+  setup(props, context) {
+    const { $store } = context.root
 
-    onSubmit(email, password) {
-      this.authenticate({ strategy: 'local', email, password })
+    const email = ref('')
+    const password = ref('')
+
+    const error = ref(null)
+    function dismissError() {
+      error.value = null
+    }
+
+    function onSubmit(email, password) {
+      $store
+        .dispatch('auth/authenticate', { strategy: 'local', email, password })
         // Just use the returned error instead of mapping it from the store.
-        .catch(error => {
+        .catch(err => {
           // Convert the error to a plain object and add a message.
-          let type = error.className
-          error = Object.assign({}, error)
-          error.message =
+          let type = err.className
+          err = Object.assign({}, err)
+          err.message =
             type === 'not-authenticated'
               ? 'Incorrect email or password.'
               : 'An error prevented login.'
-          this.error = error
+          this.error = err
         })
-    },
-    ...mapMutations('auth', {
-      clearAuthenticateError: 'clearAuthenticateError'
-    }),
-    ...mapActions('auth', ['authenticate'])
+    }
+
+    return {
+      email,
+      password,
+      error,
+      dismissError,
+      onSubmit
+    }
   }
 }
 </script>
