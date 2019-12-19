@@ -11,6 +11,7 @@
     "@feathersjs/authentication-client": "^4.4.3",
     "@feathersjs/feathers": "^4.4.3",
     "@feathersjs/socketio-client": "^4.4.3",
+    "@vue/composition-api": "^0.3.4",
     "core-js": "^3.4.3",
     "feathers-hooks-common": "^4.20.7",
     "feathers-vuex": "^2.3.1",
