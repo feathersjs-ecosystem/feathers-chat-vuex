@@ -11,11 +11,10 @@ export default {
   name: 'App',
   setup(props, context) {
     const { $store, $router, $route } = context.root
-    const { user } = $store.state.auth
 
     // Redirect to chat page if there's a user, otherwise to login page.
     watch(
-      () => user,
+      () => $store.state.auth.user,
       user => {
         const toRouteName = user ? 'Chat' : 'Login'
         if ($route.name !== toRouteName) {
