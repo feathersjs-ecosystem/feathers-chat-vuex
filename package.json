@@ -15,7 +15,7 @@
     "core-js": "^3.4.3",
     "date-fns": "^2.8.1",
     "feathers-hooks-common": "^4.20.7",
-    "feathers-vuex": "^2.3.1",
+    "feathers-vuex": "^3.0.0-pre.9",
     "socket.io-client": "^2.3.0",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3",
