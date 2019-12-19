@@ -10,7 +10,7 @@ import { onMounted, watch } from '@vue/composition-api'
 export default {
   name: 'App',
   setup(props, context) {
-    const { $store } = context.root
+    const { $store, $router, $route } = context.root
     const { user } = $store.state.auth
 
     // Redirect to chat page if there's a user, otherwise to login page.
@@ -18,7 +18,9 @@ export default {
       () => user,
       user => {
         const toRouteName = user ? 'Chat' : 'Login'
-        this.$router.replace({ name: toRouteName })
+        if ($route.name !== toRouteName) {
+          $router.replace({ name: toRouteName })
+        }
       }
     )
 
