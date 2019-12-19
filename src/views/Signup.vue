@@ -60,47 +60,55 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex'
+import { ref } from '@vue/composition-api'
 
 export default {
-  data() {
-    return {
-      email: undefined,
-      password: undefined,
-      error: undefined
-    }
-  },
+  name: 'Signup',
+  setup(props, context) {
+    const { User } = context.root.$FeathersVuex.api
+    const { $store } = context.root
 
-  methods: {
-    dismissError() {
-      this.error = undefined
-      this.clearCreateError()
-    },
-    onSubmit(email, password) {
-      this.dismissError()
+    const email = ref('')
+    const password = ref('')
+
+    const error = ref(null)
+    function dismissError() {
+      error.value = null
+    }
+
+    function onSubmit(email, password) {
+      dismissError()
 
       // Automatically log the user in after successful signup.
-      this.createUser({ email, password })
-        .then(() => this.authenticate({ strategy: 'local', email, password }))
+      new User({ email, password })
+        .save()
+        .then(() =>
+          $store.dispatch('auth/authenticate', {
+            strategy: 'local',
+            email,
+            password
+          })
+        )
         // Just use the returned error instead of mapping it from the store.
-        .catch(error => {
+        .catch(err => {
           // Convert the error to a plain object and add a message.
-          let type = error.errorType
-          error = Object.assign({}, error)
-          error.message =
+          let type = err.errorType
+          err = Object.assign({}, err)
+          err.message =
             type === 'uniqueViolated'
               ? 'That email address is unavailable.'
               : 'An error prevented signup.'
-          this.error = error
+          error.value = err
         })
-    },
-    ...mapActions('users', {
-      createUser: 'create'
-    }),
-    ...mapMutations('users', {
-      clearCreateError: 'clearCreateError'
-    }),
-    ...mapActions('auth', ['authenticate'])
+    }
+
+    return {
+      email,
+      password,
+      error,
+      dismissError,
+      onSubmit
+    }
   }
 }
 </script>
