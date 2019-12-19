@@ -13,6 +13,7 @@
     "@feathersjs/socketio-client": "^4.4.3",
     "@vue/composition-api": "^0.3.4",
     "core-js": "^3.4.3",
+    "date-fns": "^2.8.1",
     "feathers-hooks-common": "^4.20.7",
     "feathers-vuex": "^2.3.1",
     "socket.io-client": "^2.3.0",
