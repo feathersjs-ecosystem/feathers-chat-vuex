@@ -10,17 +10,16 @@ import { onMounted, watch } from '@vue/composition-api'
 export default {
   name: 'App',
   setup(props, context) {
-    const { $store, $router, $route } = context.root
+    const { $store, $router } = context.root
 
     // Redirect to chat page if there's a user, otherwise to login page.
     watch(
       () => $store.state.auth.user,
       user => {
         const toRouteName = user ? 'Chat' : 'Login'
-        if ($route.name !== toRouteName) {
-          $router.replace({ name: toRouteName })
-        }
-      }
+        $router.replace({ name: toRouteName })
+      },
+      { lazy: true }
     )
 
     // Attempt jwt auth when the app mounts.
