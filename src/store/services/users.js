@@ -1,7 +1,7 @@
 import feathersClient, {
   makeServicePlugin,
   BaseModel
-} from '../feathers-client'
+} from '../../feathers-client'
 
 class User extends BaseModel {
   constructor(data, options) {
