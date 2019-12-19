@@ -13,66 +13,62 @@
     <div v-if="user" class="flex flex-row flex-1 clear">
       <UserList :users="users" :logout="logout" />
 
-      <MessageList
-        :messages="messages.data"
-        :find-messages="findUsers"
-        :create-message="createMessage"
-      />
+      <MessageList :messages="messages" />
     </div>
   </main>
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { useFind } from 'feathers-vuex'
+import { computed } from '@vue/composition-api'
 import UserList from '../components/Users'
 import MessageList from '../components/Messages'
 
 export default {
-  name: 'ChatApp',
+  name: 'Chat',
   components: {
     UserList,
     MessageList
   },
-  computed: {
-    ...mapState('auth', ['user']),
-    ...mapGetters('messages', {
-      findMessagesInStore: 'find'
-    }),
-    ...mapGetters('users', {
-      users: 'list'
-    }),
-    messages() {
-      return this.findMessagesInStore({ query: { $sort: { createdAt: 1 } } })
-    }
-  },
-  created() {
-    if (!this.user) {
-      return this.$router.replace({ name: 'Login' })
-    }
-    // Query users from Feathers
-    this.findUsers({
-      query: {
-        $sort: { email: 1 },
-        $limit: 25
+  setup(props, context) {
+    const { Message, User } = context.root.$FeathersVuex.api
+    const { $store } = context.root
+
+    // Users
+    const user = computed(() => $store.state.auth.user)
+    const usersParams = computed(() => {
+      return {
+        query: {
+          $sort: { email: 1 },
+          $limit: 25
+        }
       }
     })
-    // Query messages from Feathers
-    this.findMessages({
-      query: {
-        $sort: { createdAt: -1 },
-        $limit: 25
+    const { items: users } = useFind({ model: User, params: usersParams })
+    function logout() {
+      return $store.dispatch('auth/logout')
+    }
+
+    // Messages
+    const messagesParams = computed(() => {
+      return {
+        query: {
+          $sort: { createdAt: 1 },
+          $limit: 25
+        }
       }
     })
-  },
-  methods: {
-    ...mapActions('messages', {
-      findMessages: 'find',
-      createMessage: 'create'
-    }),
-    ...mapActions('users', {
-      findUsers: 'find'
-    }),
-    ...mapActions('auth', ['logout'])
+    const { items: messages } = useFind({
+      model: Message,
+      params: messagesParams
+    })
+
+    return {
+      user,
+      users,
+      messages,
+      logout
+    }
   }
 }
 </script>
