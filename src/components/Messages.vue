@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-column col col-9">
-    <main class="chat flex flex-column flex-1 clear">
+    <main ref="chatPane" class="chat flex flex-column flex-1 clear">
       <SingleMessage
         v-for="message in messages"
         v-cloak
@@ -8,11 +8,13 @@
         :message="message"
       />
     </main>
-    <ComposeMessage :create-message="createMessage" />
+
+    <ComposeMessage />
   </div>
 </template>
 
 <script>
+import { ref, watch, onMounted } from '@vue/composition-api'
 import ComposeMessage from './Composer.vue'
 import SingleMessage from './Message.vue'
 
@@ -23,30 +25,31 @@ export default {
     SingleMessage
   },
   props: {
-    // eslint-disable-next-line vue/require-default-prop
-    messages: Array,
-    // eslint-disable-next-line vue/require-default-prop
-    findMessages: Function,
-    // eslint-disable-next-line vue/require-default-prop
-    createMessage: Function
-  },
-  data() {
-    return {
-      // TODO: Fix the placeholder
-      placeholder: 'PLACEHOLDER'
+    messages: {
+      type: Array,
+      required: true
     }
   },
-  watch: {
-    messages() {
-      this.messages.length && this.scrollToBottom()
-    }
-  },
-  methods: {
-    scrollToBottom() {
-      this.$nextTick(() => {
-        const node = this.$el.getElementsByClassName('chat')[0]
-        node.scrollTop = node.scrollHeight
+  setup(props, context) {
+    const placeholder = ref('PLACEHOLDER')
+
+    // Chat Pane
+    const chatPane = ref(null)
+    function scrollToBottom() {
+      context.root.$nextTick(() => {
+        chatPane.value.scrollTop = chatPane.value.scrollHeight
       })
+    }
+    onMounted(() => {
+      watch(
+        () => props.messages.length,
+        () => scrollToBottom()
+      )
+    })
+
+    return {
+      placeholder,
+      chatPane
     }
   }
 }
