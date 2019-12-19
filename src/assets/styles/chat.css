@@ -1,0 +1,118 @@
+html, body {
+  font-family: 'Helvetica Neue', 'Helevetica', 'Arial', 'sans-serif';
+  color: #333;
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+}
+
+.flex-1 {
+  flex: 1 1 0;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #31D8A0;
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
+  color: #27C895;
+}
+
+.button {
+  text-align: center;
+}
+
+.button-primary {
+  padding: 0.6em 1.2em;
+  background: #31D8A0;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.button-primary:hover,
+.button-primary:focus {
+  background: #27C895;
+  color: #ffffff;
+}
+
+/* ======================================= */
+/* Signup and Login */
+/* ======================================= */
+
+main.login,
+main.signup {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+main.login fieldset,
+main.signup fieldset {
+  padding: 10px 0;
+}
+
+main.login fieldset input,
+main.signup fieldset input{
+  width: 100%;
+  text-align: center;
+  /* padding: 1.4em 0.7em; */
+}
+
+main.login .button-primary,
+main.signup .button-primary {
+  padding-top: 1.2em;
+  padding-bottom: 1.2em;
+  margin-top: 40px;
+  width: 100%;
+}
+
+main.login div.error,
+main.signup div.error {
+  text-align: center;
+  color: hotpink;
+}
+
+.button-secondary {
+  background: none;
+  border: 2px solid #CFCFCF;
+  color: #999;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.button-secondary:hover,
+.button-secondary:focus {
+  background: none;
+  border: 2px solid #31D8A0;
+  color: #31D8A0;
+}
+
+/* Send Message Form */
+
+#app form {
+  min-height: 60px;
+  padding: 10px 20px;
+}
+
+#app form input {
+  height: auto !important;
+}
+
+[v-cloak] {
+  display: none;
+}
