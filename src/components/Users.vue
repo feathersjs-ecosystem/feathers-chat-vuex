@@ -3,9 +3,10 @@
     <header class="flex flex-row flex-center">
       <h4 class="font-300 text-center">
         <span v-cloak class="font-600 online-count">{{ users.length }}</span>
-        {{ plural }}
+        {{ userOrUsers }}
       </h4>
     </header>
+
     <ul class="flex flex-column flex-1 list-unstyled user-list">
       <li v-for="user in users" :key="user._id">
         <a class="block relative" href="javascript://">
@@ -16,11 +17,12 @@
         </a>
       </li>
     </ul>
+
     <footer class="flex flex-row flex-center">
       <a
         href="javascript://"
         class="logout button button-primary"
-        @click="logout"
+        @click="$emit('logout')"
         >Sign Out</a
       >
     </footer>
@@ -28,28 +30,30 @@
 </template>
 
 <script>
+import { computed } from '@vue/composition-api'
 export default {
   name: 'UserList',
   props: {
-    // eslint-disable-next-line vue/require-default-prop
-    users: Array,
-    // eslint-disable-next-line vue/require-default-prop
-    logout: Function
-  },
-  data() {
-    return {
-      dummyUser: [
-        {
-          email: 'noemail',
-          avatar:
-            'https://s.gravatar.com/avatar/7eb0f9eac6df7e6be3971144999a2152?s=200'
-        }
-      ]
+    users: {
+      type: Array,
+      required: true
     }
   },
-  computed: {
-    plural() {
-      return this.users.length === 1 ? 'user' : 'users'
+  setup(props) {
+    const dummyUser = [
+      {
+        email: 'noemail',
+        avatar:
+          'https://s.gravatar.com/avatar/7eb0f9eac6df7e6be3971144999a2152?s=200'
+      }
+    ]
+    const userOrUsers = computed(() =>
+      props.users.length === 1 ? 'user' : 'users'
+    )
+
+    return {
+      dummyUser,
+      userOrUsers
     }
   }
 }
