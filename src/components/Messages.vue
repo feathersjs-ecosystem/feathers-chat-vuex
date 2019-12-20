@@ -3,7 +3,6 @@
     <main ref="chatPane" class="chat flex flex-column flex-1 clear">
       <SingleMessage
         v-for="message in messages"
-        v-cloak
         :key="message._id"
         :message="message"
       />
