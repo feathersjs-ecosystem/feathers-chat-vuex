@@ -7,7 +7,7 @@
 This is the new version of the Feathers Chat single page application using [feathers-vuex](https://github.com/feathersjs-ecosystem/feathers-vuex).  There is another version available that is no longer maintained at https://github.com/feathersjs-ecosystem/feathers-chat-vuex-0.7.  It serves as a valuable comparison of the old API with the new API.
 
 <a href="https://docs.feathersjs.com/guides/basics/frontend.html">
-![feathers chat](https://docs.feathersjs.com/assets/img/feathers-chat.91960785.png)
+  <img src="https://docs.feathersjs.com/assets/img/feathers-chat.91960785.png" alt="Feathers Chat UI">
 </a>
 
 ## API Setup
