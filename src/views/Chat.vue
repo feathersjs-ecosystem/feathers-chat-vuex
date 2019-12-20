@@ -11,9 +11,9 @@
       </div>
     </header>
     <div v-if="user" class="flex flex-row flex-1 clear">
-      <UserList :users="users" />
+      <UserList :users="users" @logout="logout" />
 
-      <MessageList :messages="messages" @logout="logout" />
+      <MessageList :messages="messages" />
     </div>
   </main>
 </template>
