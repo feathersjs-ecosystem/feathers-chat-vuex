@@ -1,6 +1,6 @@
 # feathers-chat-vuex
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs/feathers-chat-vuex.svg)](https://greenkeeper.io/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs-ecosystem/feathers-chat-vuex.svg)](https://greenkeeper.io/)
 
 > Built on Feathers-Vuex 3.x
 
