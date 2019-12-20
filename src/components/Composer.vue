@@ -1,35 +1,38 @@
 <template>
-  <form
-    id="send-message"
-    class="flex flex-row flex-space-between"
-    @submit.prevent
-  >
-    <input v-model="newMessage" type="text" name="text" class="flex flex-1" />
-    <button class="button-primary" type="submit" @click="addMessage">
+  <form class="flex flex-row flex-space-between" @submit.prevent="onSubmit">
+    <input v-model="message.text" type="text" class="flex flex-1" />
+
+    <button class="button-primary" type="submit">
       Send
     </button>
   </form>
 </template>
 
 <script>
+import { ref } from '@vue/composition-api'
+
 export default {
   name: 'MessageComposer',
-  props: {
-    // eslint-disable-next-line vue/require-default-prop
-    createMessage: Function
-  },
-  data() {
-    return {
-      newMessage: ''
+  setup(props, context) {
+    const { Message } = context.root.$FeathersVuex.api
+
+    const message = ref(new Message({ text: '' }))
+
+    function reset() {
+      message.value = new Message({ text: '' })
     }
-  },
-  methods: {
-    addMessage() {
-      // Create a new message and then clear the input field
-      this.createMessage({ text: this.newMessage }).then(this.clearMessage)
-    },
-    clearMessage() {
-      this.newMessage = ''
+    function onSubmit() {
+      if (!message.value.text) {
+        return
+      }
+      message.value.save()
+      reset()
+    }
+
+    return {
+      message,
+      reset,
+      onSubmit
     }
   }
 }
