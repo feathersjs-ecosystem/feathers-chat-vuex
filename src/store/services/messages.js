@@ -2,7 +2,6 @@ import feathersClient, {
   makeServicePlugin,
   BaseModel
 } from '../../feathers-client'
-import { parseISO } from 'date-fns'
 
 class Message extends BaseModel {
   constructor(data, options) {
@@ -18,7 +17,7 @@ class Message extends BaseModel {
   }
   static setupInstance(data) {
     if (data.createdAt) {
-      data.createdAt = parseISO(data.createdAt)
+      data.createdAt = new Date(data.createdAt)
     }
     return data
   }
