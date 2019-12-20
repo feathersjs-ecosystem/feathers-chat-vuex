@@ -8,7 +8,7 @@
     <div class="message-wrapper">
       <p class="message-header">
         <span class="username font-600">{{ message.user.email }}</span>
-        <span class="sent-date font-300">{{ formattedDate }}</span>
+        <span class="sent-date font-300 pl-2">{{ message.formattedDate }}</span>
       </p>
       <p class="message-content font-300">{{ message.text }}</p>
     </div>
@@ -16,15 +16,18 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
-
 export default {
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['message', 'index'],
-  computed: {
-    formattedDate() {
-      return format(this.message.createdAt, 'MMM Do, hh:mm:ss')
+  props: {
+    message: {
+      type: Object,
+      required: true
     }
   }
 }
 </script>
+
+<style scoped>
+.pl-2 {
+  padding-left: 8px;
+}
+</style>
