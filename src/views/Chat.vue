@@ -11,9 +11,9 @@
       </div>
     </header>
     <div v-if="user" class="flex flex-row flex-1 clear">
-      <UserList :users="users" :logout="logout" />
+      <UserList :users="users" />
 
-      <MessageList :messages="messages" />
+      <MessageList :messages="messages" @logout="logout" />
     </div>
   </main>
 </template>
@@ -45,9 +45,6 @@ export default {
       }
     })
     const { items: users } = useFind({ model: User, params: usersParams })
-    function logout() {
-      return $store.dispatch('auth/logout')
-    }
 
     // Messages
     const messagesParams = computed(() => {
@@ -62,6 +59,11 @@ export default {
       model: Message,
       params: messagesParams
     })
+
+    // Logout
+    function logout() {
+      return $store.dispatch('auth/logout')
+    }
 
     return {
       user,
