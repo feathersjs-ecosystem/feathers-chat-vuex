@@ -2,6 +2,7 @@ import feathersClient, {
   makeServicePlugin,
   BaseModel
 } from '../../feathers-client'
+import { format } from 'date-fns'
 
 class Message extends BaseModel {
   constructor(data, options) {
@@ -20,6 +21,9 @@ class Message extends BaseModel {
       data.createdAt = new Date(data.createdAt)
     }
     return data
+  }
+  get formattedDate() {
+    return format(this.createdAt, 'MMM do, hh:mm:ss')
   }
 }
 const servicePath = 'messages'
