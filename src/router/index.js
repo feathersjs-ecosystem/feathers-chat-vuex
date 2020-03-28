@@ -4,6 +4,7 @@ import Home from '../views/Home'
 import Login from '../views/Login'
 import Signup from '../views/Signup'
 import Chat from '../views/Chat'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -11,7 +12,12 @@ const routes = [
   { path: '', name: 'Home', component: Home },
   { path: '/login', name: 'Login', component: Login },
   { path: '/signup', name: 'Signup', component: Signup },
-  { path: '/chat', name: 'Chat', component: Chat }
+  { path: '/chat', name: 'Chat', component: Chat,
+      beforeEnter: (to, from, next)=>{
+        if (!store.state.auth.isAuthenticated) next({name: 'Home'})
+        else next()
+      }
+  }
 ]
 
 const router = new VueRouter({
