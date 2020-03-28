@@ -14,8 +14,8 @@ const routes = [
   { path: '/signup', name: 'Signup', component: Signup },
   { path: '/chat', name: 'Chat', component: Chat,
       beforeEnter: (to, from, next)=>{
-        if (!store.state.auth.isAuthenticated) next({name: 'Home'})
-        else next()
+        if (store.state.auth.user) next()
+        else next({name: 'Home'})
       }
   }
 ]
